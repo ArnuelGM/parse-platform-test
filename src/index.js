@@ -1,12 +1,22 @@
 const express = require('express');
 
+/**
+ * constantes
+ */
 const port = 4040;
+const apiPath = '/api';
+const dashboardPath = '/dashboard';
 const app = express();
 
-app.use('/parse1', require('./parse1').api1(port));
-app.use('/parse2', require('./parse2').api2(port));
-app.use('/dashboard', require('./dashboard').dashboard(port));
+// api and dashboard
+const api = require("./parse-server-api");
+const dashboard = require("./dashboard");
 
+// middleware
+app.use(apiPath, api.api(port, apiPath));
+app.use(dashboardPath, dashboard.dashboard(port, apiPath));
+
+// run server
 app.listen(port, function() {
     console.log('Parse Server and Dashboard test runnign on port ' + port);
 });
